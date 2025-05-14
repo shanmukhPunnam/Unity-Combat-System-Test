@@ -34,7 +34,7 @@ namespace Subvrsive.Combat.Characters
 
         }
 
-        public void MoveTo(Vector3 destination)
+        private void MoveTo(Vector3 destination)
         {
             if (agent.enabled && agent.isOnNavMesh)
             {

@@ -1,0 +1,20 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 644f452da5e1fb44c92edfab708179c3, type: 3}
+  m_Name: AR_AKM Gun
+  m_EditorClassIdentifier: 
+  weaponName: AKM
+  damage: 6
+  range: 10
+  fireRate: 0.1
+  weaponPrefab: {fileID: 1249165319554590526, guid: 2d5bd6bb2ff86f3449448c123c963e24, type: 3}
+  bulletPrefab: {fileID: 7954798841623762688, guid: d1a7b2f203034d643b17bfa599c79475, type: 3}
