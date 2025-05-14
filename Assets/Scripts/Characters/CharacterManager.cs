@@ -8,11 +8,15 @@ public class CharacterManager : MonoBehaviour
     [SerializeField] bool canShootEnimy = false;
 
 
-    [SerializeField] CharacterMovement characterMovement;
-    [SerializeField] CharacterHealth characterHealth;
-    [SerializeField] WeaponHandler WeaponHandler;
+    public CharacterMovement characterMovement;
+    public CharacterHealth characterHealth;
+    public WeaponHandler WeaponHandler;
+    public CharacterStats characterStats;
 
-    public CharacterManager enemyCharacter;
+    private CharacterManager enemyCharacter;
+
+    bool isMatchOver = false;
+
 
     void Start()
     {
@@ -30,10 +34,32 @@ public class CharacterManager : MonoBehaviour
         {
             WeaponHandler = GetComponent<WeaponHandler>();
         }
+
+        if (characterStats == null)
+        {
+            characterStats = GetComponent<CharacterStats>();
+        }
+
+        EventManager.OnGameOver += OnGameOver;
+    }
+
+    private void OnDestroy()
+    {
+        EventManager.OnGameOver -= OnGameOver;
+    }
+
+    void OnGameOver()
+    {
+        isMatchOver = true;
     }
 
     private void Update()
     {
+        if (isMatchOver == true)
+        {
+            return;
+        }
+
         if (enemyCharacter == null || enemyCharacter.characterHealth.IsAlive() == false)
         {
             //Get New Enimy

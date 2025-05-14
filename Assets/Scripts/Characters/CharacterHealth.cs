@@ -23,7 +23,7 @@ namespace Subvrsive.Combat.Characters
             return currentHealth > 0;
         }
 
-        public void TakeDamage(float amount)
+        public void TakeDamage(float amount, CharacterManager attacker)
         {
             if (!IsAlive()) return;
 
@@ -34,7 +34,8 @@ namespace Subvrsive.Combat.Characters
 
             if (currentHealth <= 0)
             {
-                GameManager.Instance.liveCharacters.Remove(gameObject);
+                attacker.characterStats.AddKill();
+                EventManager.Event_OnCharacterDie(GetComponent<CharacterManager>(), attacker);
                 OnDeath?.Invoke();
                 gameObject.SetActive(false);
             }

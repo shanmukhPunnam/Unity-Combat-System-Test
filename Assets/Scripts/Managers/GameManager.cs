@@ -1,5 +1,6 @@
 using Subvrsive.Combat.Characters;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 namespace Subvrsive.Combat.Manager
@@ -19,12 +20,28 @@ namespace Subvrsive.Combat.Manager
         public List<GameObject> characters = new List<GameObject>();
         public List<GameObject> liveCharacters = new List<GameObject>();
 
+
+        [Header("Progress")]
+        public Dictionary<string, CharacterStatsData> characterStatsDictionary = new Dictionary<string, CharacterStatsData>();
+
         private void Awake()
         {
             Instance = this;
         }
 
         private void Start()
+        {
+            EventManager.OnCharacterDie += OnCharacterDie;
+            EventManager.OnGameStart += OnGameStart;
+        }
+
+        private void OnDestroy()
+        {
+            EventManager.OnCharacterDie -= OnCharacterDie;
+            EventManager.OnGameStart -= OnGameStart;
+        }
+
+        void OnGameStart()
         {
             SpawnCharacters();
             liveCharacters.AddRange(characters);
@@ -36,12 +53,21 @@ namespace Subvrsive.Combat.Manager
             {
                 GameObject character = Instantiate(characterPrefab, GetSpawnPosition(i), Quaternion.identity);
                 character.transform.SetParent(charactersPawnParrent);
-                character.name = "Character_" + i;
+                character.name = "Player_" + i;
                 characters.Add(character);
 
                 HealthbarUI healthbar = Instantiate(healthbarPrefab, character.transform.position, Quaternion.identity);
                 healthbar.Initialize(character.transform, character.GetComponent<CharacterHealth>());
                 healthbar.transform.SetParent(charactersPawnParrent);
+
+                
+                CharacterStatsData characterStatsData = new CharacterStatsData
+                {
+                    characterName = character.name,
+                    KillCount = 0
+                };
+                character.GetComponent<CharacterStats>().characterStatsData = characterStatsData;
+                characterStatsDictionary.Add(character.name, characterStatsData);
             }
         }
 
@@ -73,28 +99,34 @@ namespace Subvrsive.Combat.Manager
         }
 
 
-        public void OnCharacterDie(GameObject character)
+        public void OnCharacterDie(CharacterManager target, CharacterManager attacker)
         {
-            if (liveCharacters.Contains(character))
+            if (liveCharacters.Contains(target.gameObject))
             {
-                liveCharacters.Remove(character);
+                liveCharacters.Remove(target.gameObject);
             }
             if (liveCharacters.Count == 0)
             {
                 Debug.Log("All characters are dead!");
-                // Handle game over logic here
+                EventManager.Event_OnGameOver();
             }
 
             if(liveCharacters.Count == 1)
             {
                 Debug.Log($"GameOver : {liveCharacters[0].name} is win the match");
-                // Handle game over logic here
+                EventManager.Event_OnGameOver();
+            }
+            string characterName = target.characterStats.characterStatsData.characterName;
+            CharacterStatsData characterStats = attacker.characterStats.characterStatsData;
+
+            if (!characterStatsDictionary.ContainsKey(characterStats.characterName))
+            {
+                characterStatsDictionary.Add(characterStats.characterName, characterStats);
             }
         }
 
         public GameObject GetRandomLiveEnimy()
         {
-            //return null;
 
             if (liveCharacters.Count == 0)
             {
@@ -111,6 +143,19 @@ namespace Subvrsive.Combat.Manager
             {
                 Debug.LogError("Random character is null!");
                 return null;
+            }
+        }
+
+        public string GetWinnerName()
+        {
+            if (liveCharacters.Count == 1)
+            {
+                return liveCharacters[0].name;
+            }
+            else
+            {
+                Debug.LogError("No winner found!");
+                return string.Empty;
             }
         }
     }

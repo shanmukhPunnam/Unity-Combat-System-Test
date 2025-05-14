@@ -16,7 +16,7 @@ namespace Subvrsive.Combat.Weapons
             weaponData = data;
         }
 
-        public void TryShoot(CharacterHealth target)
+        public void TryShoot(CharacterHealth target , CharacterManager attacker)
         {
             if (Time.time - lastFireTime < weaponData.fireRate) return;
             if (target == null || !target.IsAlive()) return;
@@ -24,15 +24,15 @@ namespace Subvrsive.Combat.Weapons
             float distance = Vector3.Distance(transform.position, target.transform.position);
             if (distance > weaponData.range) return;
 
-            Fire(target);
+            Fire(target, attacker);
             lastFireTime = Time.time;
         }
 
-        private void Fire(CharacterHealth target)
+        private void Fire(CharacterHealth target, CharacterManager attacker)
         {
             GameObject bulletObj = ObjectPool.Instance.SpawnFromPool(weaponData.bulletPrefab.name, firePoint.position, Quaternion.identity);
             Bullet bullet = bulletObj.GetComponent<Bullet>();
-            bullet.Initialize(target.transform, weaponData.damage);
+            bullet.Initialize(target.transform, weaponData.damage, attacker);
         }
     }
 }

@@ -10,9 +10,11 @@ namespace Subvrsive.Combat.Characters
         public WeaponInventory weaponInventory;
 
         private Gun currentGun;
+        private CharacterManager characterManager;
 
         void Start()
         {
+            characterManager = GetComponent<CharacterManager>();
             EquipRandomWeapon();
         }
 
@@ -29,7 +31,7 @@ namespace Subvrsive.Combat.Characters
 
         public void TryShoot(CharacterHealth target)
         {
-            currentGun?.TryShoot(target);
+            currentGun?.TryShoot(target , characterManager);
         }
 
         public bool CanShoot(CharacterHealth target)

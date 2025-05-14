@@ -1,5 +1,6 @@
 using UnityEngine;
 using Subvrsive.Combat.Characters;
+using UnityEditor.Experimental.GraphView;
 
 namespace Subvrsive.Combat.Bullets
 {
@@ -8,12 +9,14 @@ namespace Subvrsive.Combat.Bullets
         public float speed = 20f;
         private int damage;
         private Transform target;
+        CharacterManager attackerCharacter;
 
-        public void Initialize(Transform targetTransform, int bulletDamage)
+        public void Initialize(Transform targetTransform, int bulletDamage , CharacterManager attacker)
         {
-            target = targetTransform;
-            damage = bulletDamage;
+            this.target = targetTransform;
+            this.damage = bulletDamage;
             Invoke(nameof(Deactivate), 3f);
+            this.attackerCharacter = attacker;
         }
 
         void Update()
@@ -31,7 +34,7 @@ namespace Subvrsive.Combat.Bullets
                 var health = target.GetComponent<CharacterHealth>();
                 if (health != null)
                 {
-                    health.TakeDamage(damage);
+                    health.TakeDamage(damage, attackerCharacter);
                 }
 
                 gameObject.SetActive(false);
@@ -41,7 +44,6 @@ namespace Subvrsive.Combat.Bullets
         private void Deactivate()
         {
             ObjectPool.Instance.ReturnToPool(gameObject.name, gameObject);
-            //gameObject.SetActive(false);
         }
     }
 }

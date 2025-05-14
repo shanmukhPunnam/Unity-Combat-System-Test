@@ -125,6 +125,7 @@ GameObject:
   - component: {fileID: 4441466730658677069}
   - component: {fileID: 6229014907384415013}
   - component: {fileID: -7348939281388098084}
+  - component: {fileID: 2080051330445624925}
   m_Layer: 0
   m_Name: Character
   m_TagString: Untagged
@@ -242,7 +243,7 @@ MonoBehaviour:
   characterMovement: {fileID: 2321720796363118271}
   characterHealth: {fileID: 6229014907384415013}
   WeaponHandler: {fileID: -7348939281388098084}
-  enemyCharacter: {fileID: 0}
+  characterStats: {fileID: 2080051330445624925}
 --- !u!114 &2321720796363118271
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -308,6 +309,21 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   handSocket: {fileID: 3899254661870020006}
   weaponInventory: {fileID: 11400000, guid: c5dc3b6994ad48d4487db5c7863449f5, type: 2}
+--- !u!114 &2080051330445624925
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7199939525656788536}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 488d4ca28a0bfff4cb02af0559809bfe, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  characterStatsData:
+    characterName: 
+    KillCount: 0
 --- !u!1 &9092662193604928686
 GameObject:
   m_ObjectHideFlags: 0
