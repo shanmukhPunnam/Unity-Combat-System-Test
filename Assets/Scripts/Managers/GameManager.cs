@@ -1,10 +1,11 @@
+using Subvrsive.Combat.Characters;
 using System.Collections.Generic;
 using UnityEngine;
 
 namespace Subvrsive.Combat.Manager
 {
     public class GameManager : MonoBehaviour
-    {
+    { 
         public static GameManager Instance { get; private set; }
 
         [Header("Game Settings")]
@@ -12,6 +13,7 @@ namespace Subvrsive.Combat.Manager
         [SerializeField] private Transform[] spawnPoints;
         [SerializeField] private int numberOfCharactersToSpawn = 10;
         [SerializeField] private Transform charactersPawnParrent;
+        [SerializeField] private HealthbarUI healthbarPrefab;
 
         [Header("Game State")]
         public List<GameObject> characters = new List<GameObject>();
@@ -36,6 +38,10 @@ namespace Subvrsive.Combat.Manager
                 character.transform.SetParent(charactersPawnParrent);
                 character.name = "Character_" + i;
                 characters.Add(character);
+
+                HealthbarUI healthbar = Instantiate(healthbarPrefab, character.transform.position, Quaternion.identity);
+                healthbar.Initialize(character.transform, character.GetComponent<CharacterHealth>());
+                healthbar.transform.SetParent(charactersPawnParrent);
             }
         }
 

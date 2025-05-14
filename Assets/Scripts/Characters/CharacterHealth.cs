@@ -6,8 +6,8 @@ namespace Subvrsive.Combat.Characters
 {
     public class CharacterHealth : MonoBehaviour
     {
-        [SerializeField] private float maxHealth = 100f;
-        [SerializeField] private float currentHealth;
+        public float maxHealth = 100f;
+        public float currentHealth;
 
 
         public event Action OnDeath;
