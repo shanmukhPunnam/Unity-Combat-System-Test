@@ -30,7 +30,7 @@ namespace Subvrsive.Combat.Weapons
 
         private void Fire(CharacterHealth target)
         {
-            GameObject bulletObj = Instantiate(weaponData.bulletPrefab, firePoint.position, Quaternion.identity);
+            GameObject bulletObj = ObjectPool.Instance.SpawnFromPool(weaponData.bulletPrefab.name, firePoint.position, Quaternion.identity);
             Bullet bullet = bulletObj.GetComponent<Bullet>();
             bullet.Initialize(target.transform, weaponData.damage);
         }

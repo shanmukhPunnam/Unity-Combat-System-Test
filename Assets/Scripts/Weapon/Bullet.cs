@@ -40,7 +40,8 @@ namespace Subvrsive.Combat.Bullets
 
         private void Deactivate()
         {
-            gameObject.SetActive(false);
+            ObjectPool.Instance.ReturnToPool(gameObject.name, gameObject);
+            //gameObject.SetActive(false);
         }
     }
 }
