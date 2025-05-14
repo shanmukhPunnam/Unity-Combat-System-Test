@@ -1,7 +1,9 @@
-
-[System.Serializable]
-public class CharacterStatsData 
+namespace Subvrsive.Combat.Characters 
 {
-    public string characterName;
-    public int KillCount;
+    [System.Serializable]
+    public class CharacterStatsData
+    {
+        public string characterName;
+        public int KillCount;
+    }
 }

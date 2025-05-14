@@ -1,6 +1,7 @@
 using UnityEngine;
 using Subvrsive.Combat.Bullets;
 using Subvrsive.Combat.Characters;
+using Subvrsive.Combat.Pool;
 
 namespace Subvrsive.Combat.Weapons
 {
@@ -32,7 +33,7 @@ namespace Subvrsive.Combat.Weapons
         {
             GameObject bulletObj = ObjectPool.Instance.SpawnFromPool(weaponData.bulletPrefab.name, firePoint.position, Quaternion.identity);
             Bullet bullet = bulletObj.GetComponent<Bullet>();
-            bullet.Initialize(target.transform, weaponData.damage, attacker);
+            bullet.Initialize(target.transform, weaponData, attacker);
         }
     }
 }

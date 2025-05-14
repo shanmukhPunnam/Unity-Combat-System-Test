@@ -1,12 +1,16 @@
 using UnityEngine;
 
-public class CharacterStats : MonoBehaviour
+namespace Subvrsive.Combat.Characters
 {
-    public CharacterStatsData characterStatsData = new();
-
-    public void AddKill()
+    public class CharacterStats : MonoBehaviour
     {
-        characterStatsData.KillCount++;
-        Debug.Log($"{gameObject.name} has {characterStatsData.KillCount} kills.");
+        public CharacterStatsData characterStatsData = new();
+
+        public void AddKill()
+        {
+            characterStatsData.KillCount++;
+            Debug.Log($"{gameObject.name} has {characterStatsData.KillCount} kills.");
+        }
     }
 }
+

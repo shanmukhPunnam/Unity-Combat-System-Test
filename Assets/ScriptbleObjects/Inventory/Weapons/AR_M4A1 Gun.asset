@@ -14,7 +14,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   weaponName: M4A1
   damage: 8
-  range: 12
+  range: 25
   fireRate: 0.1
   weaponPrefab: {fileID: 2203623833276314545, guid: b467e93b3bd6ff34696f6c08db449d53, type: 3}
   bulletPrefab: {fileID: 7954798841623762688, guid: d1a7b2f203034d643b17bfa599c79475, type: 3}
+  weaponEffect: {fileID: 11400000, guid: f44a43d756578144c9ea5a929585d2f8, type: 2}

@@ -1,4 +1,5 @@
 using Subvrsive.Combat.Characters;
+using Subvrsive.Combat.Event;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
@@ -131,6 +132,8 @@ namespace Subvrsive.Combat.Manager
             if (liveCharacters.Count == 0)
             {
                 Debug.LogError("No live characters available!");
+                EventManager.Event_OnGameOver();
+
                 return null;
             }
             int randomIndex = Random.Range(0, liveCharacters.Count);

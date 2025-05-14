@@ -14,7 +14,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   weaponName: MK49
   damage: 6
-  range: 12
+  range: 30
   fireRate: 0.1
   weaponPrefab: {fileID: 1406152999289850952, guid: 837250a9a0ef52d42afb59489c419e0a, type: 3}
   bulletPrefab: {fileID: 7954798841623762688, guid: d1a7b2f203034d643b17bfa599c79475, type: 3}
+  weaponEffect: {fileID: 11400000, guid: f44a43d756578144c9ea5a929585d2f8, type: 2}

@@ -1,106 +1,111 @@
-using Subvrsive.Combat.Characters;
+using Subvrsive.Combat.Event;
 using Subvrsive.Combat.Manager;
 using UnityEngine;
 
-public class CharacterManager : MonoBehaviour
+namespace Subvrsive.Combat.Characters
 {
-    public float TargetDistance = 10f; // Distance to the target enemy
-    [SerializeField] bool canShootEnimy = false;
-
-
-    public CharacterMovement characterMovement;
-    public CharacterHealth characterHealth;
-    public WeaponHandler WeaponHandler;
-    public CharacterStats characterStats;
-
-    private CharacterManager enemyCharacter;
-
-    bool isMatchOver = false;
-
-
-    void Start()
+    public class CharacterManager : MonoBehaviour
     {
-        if (characterMovement == null)
+        public float TargetDistance = 10f; // Distance to the target enemy
+        [SerializeField] bool canShootEnimy = false;
+
+
+        public CharacterMovement characterMovement;
+        public CharacterHealth characterHealth;
+        public WeaponHandler WeaponHandler;
+        public CharacterStats characterStats;
+
+        private CharacterManager enemyCharacter;
+
+        bool isMatchOver = false;
+
+
+        void Start()
         {
-            characterMovement = GetComponent<CharacterMovement>();
-        }
-
-        if (characterHealth == null) 
-        {
-            characterHealth = GetComponent<CharacterHealth>();
-        }
-
-        if(WeaponHandler == null)
-        {
-            WeaponHandler = GetComponent<WeaponHandler>();
-        }
-
-        if (characterStats == null)
-        {
-            characterStats = GetComponent<CharacterStats>();
-        }
-
-        EventManager.OnGameOver += OnGameOver;
-    }
-
-    private void OnDestroy()
-    {
-        EventManager.OnGameOver -= OnGameOver;
-    }
-
-    void OnGameOver()
-    {
-        isMatchOver = true;
-    }
-
-    private void Update()
-    {
-        if (isMatchOver == true)
-        {
-            return;
-        }
-
-        if (enemyCharacter == null || enemyCharacter.characterHealth.IsAlive() == false)
-        {
-            //Get New Enimy
-            GameObject enimy = GameManager.Instance.GetRandomLiveEnimy();
-            if (enimy != null && enimy != gameObject)
+            if (characterMovement == null)
             {
-                enemyCharacter = enimy.GetComponent<CharacterManager>();
+                characterMovement = GetComponent<CharacterMovement>();
             }
-            else
+
+            if (characterHealth == null)
             {
-                enemyCharacter = null;
+                characterHealth = GetComponent<CharacterHealth>();
+            }
+
+            if (WeaponHandler == null)
+            {
+                WeaponHandler = GetComponent<WeaponHandler>();
+            }
+
+            if (characterStats == null)
+            {
+                characterStats = GetComponent<CharacterStats>();
+            }
+
+            EventManager.OnGameOver += OnGameOver;
+        }
+
+        private void OnDestroy()
+        {
+            EventManager.OnGameOver -= OnGameOver;
+        }
+
+        void OnGameOver()
+        {
+            isMatchOver = true;
+        }
+
+        private void Update()
+        {
+            if (isMatchOver == true)
+            {
+                return;
+            }
+
+            if (enemyCharacter == null || enemyCharacter.characterHealth.IsAlive() == false)
+            {
+                //Get New Enimy
+                GameObject enimy = GameManager.Instance.GetRandomLiveEnimy();
+                if (enimy != null && enimy != gameObject)
+                {
+                    enemyCharacter = enimy.GetComponent<CharacterManager>();
+                }
+                else
+                {
+                    enemyCharacter = null;
+                }
+            }
+
+            if (enemyCharacter != null && enemyCharacter.characterHealth.IsAlive())
+            {
+
+                canShootEnimy = WeaponHandler.CanShoot(enemyCharacter.characterHealth);
+                if (canShootEnimy == true)
+                {
+                    Shoot();
+                }
+                else
+                {
+                    characterMovement.targetPosition = enemyCharacter.transform;
+                }
             }
         }
 
-        if (enemyCharacter != null && enemyCharacter.characterHealth.IsAlive())
+        public void MoveTo(Vector3 position)
         {
-
-            canShootEnimy = WeaponHandler.CanShoot(enemyCharacter.characterHealth);
-            if (canShootEnimy == true)
-            {
-                Shoot();
-            }
-            else
-            {
-                characterMovement.targetPosition = enemyCharacter.transform;
-            }
+            characterMovement.targetPosition = enemyCharacter.transform;
         }
-    }
-
-    public void MoveTo(Vector3 position)
-    {
-        characterMovement.targetPosition = enemyCharacter.transform; 
-    }
 
 
-    [ContextMenu("Shoot Enimy")]
-    public void Shoot()
-    {
-        if (enemyCharacter != null && enemyCharacter.characterHealth.IsAlive())
+        [ContextMenu("Shoot Enimy")]
+        public void Shoot()
         {
-            WeaponHandler.TryShoot(enemyCharacter.characterHealth);
+            if (enemyCharacter != null && enemyCharacter.characterHealth.IsAlive())
+            {
+                WeaponHandler.TryShoot(enemyCharacter.characterHealth);
+            }
         }
     }
 }
+
+

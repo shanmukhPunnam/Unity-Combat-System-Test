@@ -1,4 +1,4 @@
-using Subvrsive.Combat.Manager;
+using Subvrsive.Combat.Event;
 using System;
 using UnityEngine;
 
